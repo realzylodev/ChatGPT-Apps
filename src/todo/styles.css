@@ -1,0 +1,219 @@
+/* Todo Widget Styles */
+/* Based on ChatGPT design system colors and patterns */
+
+:root {
+  /* Light mode (default) */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #E6E6E6;
+  --bg-tertiary: #F3F3F3;
+  
+  --text-primary: #000000;
+  --text-secondary: #505050;
+  --text-tertiary: #BFBFBF;
+  --text-inverted: #FFFFFF;
+  
+  --icon-primary: #000000;
+  --icon-secondary: #505050;
+  --icon-tertiary: #BFBFBF;
+  --icon-inverted: #FFFFFF;
+  
+  --accent-blue: #2655FF;
+  --accent-red: #E6222A;
+  --accent-orange: #E2561F;
+  --accent-green: #08B635;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #121212;
+    --bg-secondary: #383838;
+    --bg-tertiary: #414141;
+    
+    --text-primary: #FFFFFF;
+    --text-secondary: #C0C0C0;
+    --text-tertiary: #AFAFAF;
+    --text-inverted: #121212;
+    
+    --icon-primary: #FFFFFF;
+    --icon-secondary: #C0C0C0;
+    --icon-tertiary: #AFAFAF;
+    --icon-inverted: #121212;
+    
+    --accent-red: #FF5858;
+    --accent-orange: #FF9C6C;
+    --accent-green: #1AD977;
+  }
+}
+
+/* Todo App Container */
+.todo-app {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode support */
+.todo-app.dark {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Custom scrollbar */
+.todo-app ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-app ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.todo-app ::-webkit-scrollbar-thumb {
+  background: var(--text-tertiary);
+  border-radius: 3px;
+}
+
+.todo-app ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Focus styles */
+.todo-app *:focus {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+/* Button styles */
+.todo-app button {
+  transition: all 0.2s ease-in-out;
+}
+
+.todo-app button:hover {
+  transform: translateY(-1px);
+}
+
+.todo-app button:active {
+  transform: translateY(0);
+}
+
+/* Input styles */
+.todo-app input[type="text"],
+.todo-app input[type="search"],
+.todo-app textarea,
+.todo-app select {
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.todo-app input[type="text"]:focus,
+.todo-app input[type="search"]:focus,
+.todo-app textarea:focus,
+.todo-app select:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(38, 85, 255, 0.1);
+}
+
+/* Priority colors */
+.priority-high {
+  color: var(--accent-red);
+}
+
+.priority-medium {
+  color: var(--accent-orange);
+}
+
+.priority-low {
+  color: var(--accent-green);
+}
+
+/* Overdue indicator */
+.overdue {
+  background-color: rgba(230, 34, 42, 0.1);
+  border-left: 3px solid var(--accent-red);
+}
+
+.dark .overdue {
+  background-color: rgba(255, 88, 88, 0.1);
+  border-left-color: var(--accent-red);
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
+
+.bounce-in {
+  animation: bounceIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border-color: var(--text-tertiary);
+  border-top-color: var(--accent-blue);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .todo-app {
+    border-radius: 0;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .todo-app {
+    border: 2px solid var(--text-primary);
+  }
+  
+  .todo-app button {
+    border: 1px solid var(--text-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .todo-app * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
