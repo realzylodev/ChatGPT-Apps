@@ -1,9 +1,17 @@
-# Apps SDK Examples Gallery
+# Todo ChatGPT App - MCP Integration
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-This repository showcases example UI components to be used with the Apps SDK, as well as example MCP servers that expose a collection of components as tools.
-It is meant to be used as a starting point and source of inspiration to build your own apps for ChatGPT.
+A comprehensive todo management application built for ChatGPT using the Model Context Protocol (MCP) and Apps SDK. This app demonstrates how to create rich, interactive widgets that integrate seamlessly with ChatGPT conversations.
+
+**🎯 Features:**
+- Complete CRUD operations for todos
+- Smart filtering and search capabilities  
+- Priority levels and due date tracking
+- Rich React widget with real-time sync
+- Dual server implementation (Node.js + Python)
+- Comprehensive test suite
+- Full MCP protocol compliance
 
 ## MCP + Apps SDK overview
 
@@ -21,12 +29,29 @@ The MCP servers in this demo highlight how each tool can light up widgets by com
 
 ## Repository structure
 
-- `src/` – Source for each widget example.
-- `assets/` – Generated HTML, JS, and CSS bundles after running the build step.
-- `pizzaz_server_node/` – MCP server implemented with the official TypeScript SDK.
-- `pizzaz_server_python/` – Python MCP server that returns the Pizzaz widgets.
-- `solar-system_server_python/` – Python MCP server for the 3D solar system widget.
-- `build-all.mts` – Vite build orchestrator that produces hashed bundles for every widget entrypoint.
+- `src/todo/` – React widget components and TypeScript implementation
+- `assets/` – Generated HTML, JS, and CSS bundles for the todo widget
+- `todo_server_node/` – Node.js MCP server with comprehensive todo management
+- `todo_server_python/` – Python MCP server using FastMCP framework
+- `build-all.mts` – Vite build orchestrator for widget assets
+- `.kiro/specs/` – Feature specifications and design documents
+
+## Quick Start
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build widget assets
+pnpm run build
+
+# Run Node.js server
+cd todo_server_node && pnpm start
+
+# OR run Python server
+pip install -r todo_server_python/requirements.txt
+uvicorn todo_server_python.main:app --port 8000
+```
 
 ## Prerequisites
 
@@ -70,41 +95,46 @@ pnpm run serve
 
 The assets are exposed at [`http://localhost:4444`](http://localhost:4444) with CORS enabled so that local tooling (including MCP inspectors) can fetch them.
 
-## Run the MCP servers
+## MCP Tools Available
 
-The repository ships several demo MCP servers that highlight different widget bundles:
+The Todo app provides these MCP tools for ChatGPT integration:
 
-- **Pizzaz (Node & Python)** – pizza-inspired collection of tools and components
-- **Solar system (Python)** – 3D solar system viewer
+- **`list-todos`** – List all todos with filtering (completion, priority, overdue, tags)
+- **`create-todo`** – Create new todos with title, description, due date, priority, tags
+- **`update-todo`** – Update existing todos by ID with partial updates
+- **`complete-todo`** – Toggle completion status of todos
+- **`delete-todo`** – Delete todos permanently
 
-Every tool response includes plain text content, structured JSON, and `_meta.openai/outputTemplate` metadata so the Apps SDK can hydrate the matching widget.
-
-### Pizzaz Node server
+### Node.js Server
 
 ```bash
-cd pizzaz_server_node
+cd todo_server_node
+pnpm install
+pnpm run build
 pnpm start
 ```
 
-### Pizzaz Python server
+### Python Server
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate
-pip install -r pizzaz_server_python/requirements.txt
-uvicorn pizzaz_server_python.main:app --port 8000
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r todo_server_python/requirements.txt
+uvicorn todo_server_python.main:app --port 8000
 ```
 
-### Solar system Python server
+## Testing
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r solar-system_server_python/requirements.txt
-uvicorn solar-system_server_python.main:app --port 8000
-```
+# Node.js tests
+cd todo_server_node && pnpm test
 
-You can reuse the same virtual environment for all Python servers—install the dependencies once and run whichever entry point you need.
+# Python tests  
+cd todo_server_python && python -m pytest tests/ -v
+
+# End-to-end tests
+node test-todo-functionality.js
+```
 
 ## Testing in ChatGPT
 
@@ -128,12 +158,31 @@ You can add your app to the conversation context by selecting it in the "More" o
 
 ![more-chatgpt](https://github.com/user-attachments/assets/26852b36-7f9e-4f48-a515-aebd87173399)
 
-You can then invoke tools by asking something related. For example, for the Pizzaz app, you can ask "What are the best pizzas in town?".
+You can then invoke tools by asking something related. For example:
+- "Show me my todos"
+- "Create a todo to buy groceries with high priority due tomorrow"
+- "Mark the grocery shopping todo as completed"
+- "Show me all overdue todos"
 
-## Next steps
+## Architecture
 
-- Customize the widget data: edit the handlers in `pizzaz_server_node/src`, `pizzaz_server_python/main.py`, or the solar system server to fetch data from your systems.
-- Create your own components and add them to the gallery: drop new entries into `src/` and they will be picked up automatically by the build script.
+This Todo app demonstrates best practices for MCP + Apps SDK development:
+
+- **MCP Protocol Compliance**: Full implementation of list tools, call tools, and widget resources
+- **Widget Integration**: Proper use of `_meta.openai/outputTemplate` for ChatGPT rendering
+- **Error Handling**: Comprehensive error responses with proper codes and recovery
+- **State Management**: Bidirectional sync between widget and ChatGPT
+- **Testing**: Unit, integration, and end-to-end test coverage
+- **Documentation**: Complete API docs and usage examples
+
+## Detailed Documentation
+
+See [TODO_APP_README.md](./TODO_APP_README.md) for comprehensive documentation including:
+- Complete file structure breakdown
+- API reference for all MCP tools
+- Widget development guide
+- Testing strategies
+- Deployment instructions
 
 ### Deploy your MCP server
 
